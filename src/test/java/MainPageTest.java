@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.MainPage;
@@ -8,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class MainPageTest extends BaseTest {
     private MainPage mainPage;
+    private OrderCallPage orderCallPage;
 
     @BeforeClass
     public void prepare() {
@@ -25,10 +25,17 @@ public class MainPageTest extends BaseTest {
 
     @Test(dependsOnMethods = "checkHeaderTest")
     public void orderCallModalWindowHeaderTest() {
-        OrderCallPage orderCallPage = mainPage.openOrderCallPage();
+        orderCallPage = mainPage.openOrderCallPage();
 
         assertThat(orderCallPage.getModalWindowHeader())
                 .describedAs("Проверка заголовка модального окна")
                 .isEqualTo("Просто заполните форму заявки");
+    }
+
+    @Test(dependsOnMethods = "orderCallModalWindowHeaderTest")
+    public void orderCallModalWindowDescriptionTest() {
+        assertThat(orderCallPage.getDescriptionWindow())
+                .describedAs("Проверка подзаголовка модального окна")
+                .isEqualTo("и мы перезвоним вам в течении 10 минут");
     }
 }

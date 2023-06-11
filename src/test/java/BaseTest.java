@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterSuite;
@@ -11,6 +12,7 @@ public abstract class BaseTest {
     protected WebDriver driver;
 
     @BeforeSuite
+    @Step("Подготовка для запуска тестов")
     public void setUp() {
         WebDriverManager.chromiumdriver().setup();
         driver = new ChromeDriver();
@@ -21,6 +23,7 @@ public abstract class BaseTest {
     }
 
     @AfterSuite
+    @Step("Возврат в исходное состояние")
     public void tearDown() {
         driver.close();
         driver.quit();
