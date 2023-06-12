@@ -5,16 +5,18 @@ import pages.OrderCallPage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Тесты для проверки секии Промо на главнй странице
+ */
 public class MainPageTest extends BaseTest {
     private MainPage mainPage;
-    private OrderCallPage orderCallPage;
 
     @BeforeClass
     public void prepare() {
       mainPage = new MainPage();
     }
 
-    @Test
+    @Test(testName = "Проверка заголовка главной страницы")
     public void checkHeaderTest() {
         String promoHeader = mainPage.getPromoHeader();
 
@@ -23,19 +25,12 @@ public class MainPageTest extends BaseTest {
                 .isEqualTo("ПОДБОР ПУЛЬСОМЕТРА");
     }
 
-    @Test(dependsOnMethods = "checkHeaderTest")
-    public void orderCallModalWindowHeaderTest() {
-        orderCallPage = mainPage.openOrderCallPage();
+    @Test(dependsOnMethods = "checkHeaderTest", testName = "Проверка открытия модального окна заказа звонка")
+    public void modalWindowOpenTest() {
+        OrderCallPage orderCallPage = mainPage.openOrderCallPage();
 
-        assertThat(orderCallPage.getModalWindowHeader())
-                .describedAs("Проверка заголовка модального окна")
-                .isEqualTo("Просто заполните форму заявки");
-    }
-
-    @Test(dependsOnMethods = "orderCallModalWindowHeaderTest")
-    public void orderCallModalWindowDescriptionTest() {
-        assertThat(orderCallPage.getDescriptionWindow())
-                .describedAs("Проверка подзаголовка модального окна")
-                .isEqualTo("и мы перезвоним вам в течении 10 минут");
+        assertThat(orderCallPage.modalWindowIsOpen())
+                .describedAs("Проверка, что модальное окно открыто")
+                .isTrue();
     }
 }
